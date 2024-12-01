@@ -22,7 +22,7 @@
         "newlines-between": "always",
         "pathGroups": [
           {
-            "pattern": "@src/app/**",
+            "pattern": "@app/**",
             "group": "external",
             "position": "after"
           }
@@ -34,5 +34,14 @@
         }
       }
     ]
-  }
+  },
+  "ignorePatterns": ["components/ui/**"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "no-undef": "off"
+      }
+    }
+  ]
 }

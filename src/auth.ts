@@ -45,9 +45,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               image: existingUser.image,
             };
           }
-
-          return null;
         }
+        return null;
       },
     }),
   ],
@@ -90,7 +89,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       const { success } = (await api.auth.oAuthSignIn({
         user: userInfo,
-        provider: account.provider as "google" | "github",
+        provider: account.provider as "github" | "google",
         providerAccountId: account.providerAccountId,
       })) as ActionResponse;
 

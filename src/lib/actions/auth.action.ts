@@ -91,7 +91,7 @@ export async function signInWithCredentials(
     }
 
     const existingAccount = await Account.findOne({
-      provider: "ceredentials",
+      provider: "credentials",
       providerAccountId: email,
     });
 

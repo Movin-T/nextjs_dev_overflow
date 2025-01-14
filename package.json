@@ -24,6 +24,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-tailwindcss": "^3.17.5",
+    "i": "^0.3.7",
     "lucide-react": "^0.465.0",
     "mongoose": "^8.9.2",
     "next": "15.0.3",
@@ -44,7 +45,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
-    "@types/react": "^18",
+    "@types/react": "^19.0.7",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",

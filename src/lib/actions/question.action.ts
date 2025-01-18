@@ -106,7 +106,8 @@ export async function editQuestion(
       throw new Error("Question not found");
     }
 
-    if (question.author.toString !== userId) {
+    if (question.author.toString() !== userId) {
+      console.log(question.author.toString(), userId);
       throw new Error("Unauthorized");
     }
 

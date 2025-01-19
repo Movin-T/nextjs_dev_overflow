@@ -10,7 +10,7 @@ import {
   GetQuestionSchema,
   PaginatedSearchParamsSchema,
 } from "../validations";
-import Question from "@/database/question.model";
+import Question, { IQuestionDoc } from "@/database/question.model";
 import Tag, { ITagDoc } from "@/database/tag.model";
 import TagQuestion from "@/database/tag-question.model";
 
@@ -83,7 +83,7 @@ export async function createQuestion(
 
 export async function editQuestion(
   params: EditQuestionParams
-): Promise<ActionResponse<Question> | ErrorResponse> {
+): Promise<ActionResponse<IQuestionDoc> | ErrorResponse> {
   const validationResult = await action({
     params,
     schema: EditQuestionSchema,
@@ -118,12 +118,18 @@ export async function editQuestion(
       await question.save({ session });
     }
 
-    const tagsToAdd = question.tags.filter(
-      (tag: ITagDoc) => !question.tags.includes(tag.name.toLocaleLowerCase())
+    const tagsToAdd = tags.filter(
+      (tag) =>
+        !question.tags.some((t: ITagDoc) =>
+          t.name.toLocaleLowerCase().includes(tag.toLocaleLowerCase())
+        )
     );
 
     const tagsToRemove = question.tags.filter(
-      (tag: ITagDoc) => !tags.includes(tag.name.toLocaleLowerCase())
+      (tag: ITagDoc) =>
+        !tags.some(
+          (t) => t.toLocaleLowerCase() === tag.name.toLocaleLowerCase()
+        )
     );
 
     const newTagDocuments = [];
@@ -131,7 +137,7 @@ export async function editQuestion(
     if (tagsToAdd.length > 0) {
       for (const tag of tagsToAdd) {
         const existingTag = await Tag.findOneAndUpdate(
-          { name: { $regex: new RegExp(`^${tag}$`, "i") } },
+          { name: { $regex: `^${tag}$`, $options: "i" } },
           { $setOnInsert: { name: tag }, $inc: { questions: 1 } },
           { upsert: true, new: true, session }
         );
@@ -139,7 +145,7 @@ export async function editQuestion(
         if (existingTag) {
           newTagDocuments.push({
             tag: existingTag._id,
-            question: question._id,
+            question: questionId,
           });
 
           question.tags.push(existingTag._id);
@@ -162,7 +168,10 @@ export async function editQuestion(
       );
 
       question.tags = question.tags.filter(
-        (tagId: mongoose.Types.ObjectId) => !tagsToRemove.includes(tagId)
+        (tag: mongoose.Types.ObjectId) =>
+          !tagIdsToRemove.some((id: mongoose.Types.ObjectId) =>
+            id.equals(tag._id)
+          )
       );
     }
 

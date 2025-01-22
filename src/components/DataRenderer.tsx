@@ -1,4 +1,4 @@
-import { DEFAULT_EMPTY } from "@/constants/states";
+import { DEFAULT_EMPTY, DEFAULT_ERROR } from "@/constants/states";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -80,21 +80,39 @@ const DataRenderer = <T,>({
   empty = DEFAULT_EMPTY,
   render,
 }: Props<T>) => {
-  // if (!data || data.length === 0)
-  return (
-    <StateSkeleton
-      image={{
-        light: "/images/light-illustration.png",
-        dark: "/images/dark-illustration.png",
-        alt: "Empty state illustration",
-      }}
-      title={empty.title}
-      message={empty.message}
-      button={empty.button}
-    />
-  );
+  if (!success)
+    return (
+      <StateSkeleton
+        image={{
+          light: "/images/light-error.png",
+          dark: "/images/dark-error.png",
+          alt: "Error state illustration",
+        }}
+        title={error?.message || DEFAULT_ERROR.title}
+        message={
+          error?.details?.message
+            ? JSON.stringify(error.details, null, 2)
+            : DEFAULT_ERROR.message
+        }
+        button={DEFAULT_ERROR.button}
+      />
+    );
 
-  return <div>DataRenderer</div>;
+  if (!data || data.length === 0)
+    return (
+      <StateSkeleton
+        image={{
+          light: "/images/light-illustration.png",
+          dark: "/images/dark-illustration.png",
+          alt: "Empty state illustration",
+        }}
+        title={empty.title}
+        message={empty.message}
+        button={empty.button}
+      />
+    );
+
+  return <div>{render(data)}</div>;
 };
 
 export default DataRenderer;

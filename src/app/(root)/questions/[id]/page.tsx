@@ -1,7 +1,8 @@
+import TagCard from "@/components/cards/TagCard";
 import Metric from "@/components/Metric";
 import UserAvatar from "@/components/UserAvatar";
 import ROUTES from "@/constants/routes";
-import { getTimeStamp } from "@/lib/utils";
+import { formatNumber, getTimeStamp } from "@/lib/utils";
 import Link from "next/link";
 import React from "react";
 
@@ -113,6 +114,33 @@ const QuestionDetails = async ({ params }: RouteParams) => {
           title=""
           textStyles="small-regular text-dark400_light700"
         />
+        <Metric
+          imgUrl="/icons/message.svg"
+          alt="message icon"
+          value={answers}
+          title=""
+          textStyles="small-regular text-dark400_light700"
+        />
+        <Metric
+          imgUrl="/icons/eye.svg"
+          alt="eye icon"
+          value={formatNumber(views)}
+          title=""
+          textStyles="small-regular text-dark400_light700"
+        />
+      </div>
+
+      <p>Preview Context</p>
+
+      <div className="mt-8 flex flex-wrap gap-2">
+        {tags.map((tag: Tag) => (
+          <TagCard
+            key={tag._id}
+            _id={tag._id as string}
+            name={tag.name}
+            compact
+          />
+        ))}
       </div>
     </>
   );

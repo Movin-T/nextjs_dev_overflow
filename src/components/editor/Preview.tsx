@@ -7,7 +7,7 @@ Code.theme = {
   lightSelector: "html.light",
 };
 
-const Preview = ({ content }: { content: string }) => {
+export const Preview = ({ content }: { content: string }) => {
   const formattedContent = content.replace(/\\/g, "").replace(/&#x20;/g, "");
 
   return (
@@ -17,7 +17,7 @@ const Preview = ({ content }: { content: string }) => {
         components={{
           pre: (props) => (
             <Code
-              {...(props as any)}
+              {...props}
               lineNumbers
               className="shadow-light-200 dark:shadow-dark-200"
             />
@@ -27,5 +27,3 @@ const Preview = ({ content }: { content: string }) => {
     </section>
   );
 };
-
-export default Preview;

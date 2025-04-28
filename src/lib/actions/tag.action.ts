@@ -1,13 +1,13 @@
 import { FilterQuery } from "mongoose";
+
+import { Question, Tag } from "@/database";
+
 import action from "../handlers/action";
 import handleError from "../handlers/error";
 import {
   GetTagQuestionsSchema,
   PaginatedSearchParamsSchema,
 } from "../validations";
-import { Question, Tag } from "@/database";
-import { filter } from "@mdxeditor/editor";
-import path from "path";
 
 export const getTags = async (
   params: PaginatedSearchParams
@@ -44,8 +44,10 @@ export const getTags = async (
       break;
     case "oldest":
       sortCriteria = { createdAt: 1 };
+      break;
     case "name":
       sortCriteria = { name: 1 };
+      break;
     default:
       sortCriteria = { createdAt: -1 };
   }

@@ -19,6 +19,7 @@
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.2",
+    "@redux-devtools/extension": "^3.3.0",
     "@tailwindcss/typography": "^0.5.15",
     "ai": "^4.3.11",
     "bcryptjs": "^2.4.3",
